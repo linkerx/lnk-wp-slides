@@ -91,6 +91,7 @@ function lnk_slide_custom_meta() {
     global $post;
     if($post->post_type == 'slide'){
         add_meta_box('lnk_slide_orden',"Orden", 'lnk_slide_orden_meta_box', null, 'side','core');
+        add_meta_box('lnk_slide_texto',"Configuracion Texto", 'lnk_slide_texto_meta_box', null, 'side','core');
     }
 }
 add_action ('add_meta_boxes','lnk_slide_custom_meta');
@@ -101,6 +102,17 @@ function lnk_slide_orden_meta_box() {
     $html .= '<input type="number" id="lnk_slide_orden" name="lnk_slide_orden" value="'.$orden.'" size="3">';
     echo $html;
 }
+
+function lnk_slide_texto_meta_box() {
+    global $post;
+    $texto_mostrar = get_post_meta( $post->ID, 'lnk_slide_texto_mostrar', true );
+    $texto_posicion = get_post_meta( $post->ID, 'lnk_slide_texto_posicion', true );
+
+
+    $html .= '<input type="number" id="lnk_slide_orden" name="lnk_slide_orden" value="'.$orden.'" size="3">';
+    echo $html;
+}
+
 
 function lnk_slide_save_post_meta($id) {
     global $wpdb,$post_type;
