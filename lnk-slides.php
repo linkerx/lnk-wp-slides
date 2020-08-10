@@ -92,6 +92,7 @@ function lnk_slide_custom_meta() {
     if($post->post_type == 'slide'){
         add_meta_box('lnk_slide_orden',"Orden", 'lnk_slide_orden_meta_box', null, 'side','core');
         add_meta_box('lnk_slide_texto',"Configuracion Texto", 'lnk_slide_texto_meta_box', null, 'side','core');
+        add_meta_box('lnk_slide_opacidad',"Configuracion Opacidad", 'lnk_slide_opacidad_meta_box', null, 'side','core');
     }
 }
 add_action ('add_meta_boxes','lnk_slide_custom_meta');
@@ -152,6 +153,14 @@ function lnk_slide_texto_meta_box() {
     echo $html;
 }
 
+function lnk_slide_opacidad_meta_box() {
+    global $post;
+    $opacidad_valor = get_post_meta( $post->ID, 'lnk_slide_opacidad_valor', true );
+    $html = '<input type="text" id="lnk_slide_opacidad_valor" name="lnk_slide_opacidad_valor" value="'.$opacidad_valor.'" size="3">';
+    $opacidad_color = get_post_meta( $post->ID, 'lnk_slide_opacidad_valor', true );
+    $html = '<input type="text" id="lnk_slide_opacidad_color" name="lnk_slide_opacidad_color" value="'.$opacidad_color.'" size="3">';
+    echo $html;
+}
 
 function lnk_slide_save_post_meta($id) {
     global $wpdb,$post_type;
@@ -180,6 +189,8 @@ function lnk_slide_save_post_meta($id) {
         update_post_meta($id, 'lnk_slide_texto_boton_texto', $_POST['lnk_slide_texto_boton_texto']);
         update_post_meta($id, 'lnk_slide_texto_boton_enlace', $_POST['lnk_slide_texto_boton_enlace']);
 
+        update_post_meta($id, 'lnk_slide_texto_opacidad_valor', $_POST['lnk_slide_texto_opacidad_valor']);
+        update_post_meta($id, 'lnk_slide_texto_opacidad_color', $_POST['lnk_slide_texto_opacidad_color']);        
 
         //var_dump($_POST)
         //die;
