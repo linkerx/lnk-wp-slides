@@ -146,7 +146,7 @@ function lnk_slide_texto_meta_box() {
     $html .= '<strong>Texto del boton:</strong> <input type="text" id="lnk_slide_texto_boton_texto" name="lnk_slide_texto_boton_texto" value="'.$texto_boton_texto.'" size="10">';
 
     /* ENLACE BOTON */
-    $texto_boton_texto = get_post_meta( $post->ID, 'lnk_slide_texto_boton_enlace', true );
+    $texto_boton_enlace = get_post_meta( $post->ID, 'lnk_slide_texto_boton_enlace', true );
     $html .= '<strong>Enlace del boton:</strong> <input type="text" id="lnk_slide_texto_boton_enlace" name="lnk_slide_texto_boton_enlace" value="'.$texto_boton_enlace.'" size="10">';
     
     echo $html;
@@ -178,6 +178,7 @@ function lnk_slide_save_post_meta($id) {
         }
 
         update_post_meta($id, 'lnk_slide_texto_boton_texto', $_POST['lnk_slide_texto_boton_texto']);
+        update_post_meta($id, 'lnk_slide_texto_boton_enlace', $_POST['lnk_slide_texto_boton_enlace']);
 
 
         //var_dump($_POST)
