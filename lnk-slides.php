@@ -99,17 +99,52 @@ add_action ('add_meta_boxes','lnk_slide_custom_meta');
 function lnk_slide_orden_meta_box() {
     global $post;
     $orden = get_post_meta( $post->ID, 'lnk_slide_orden', true );
-    $html .= '<input type="number" id="lnk_slide_orden" name="lnk_slide_orden" value="'.$orden.'" size="3">';
+    $html = '<input type="number" id="lnk_slide_orden" name="lnk_slide_orden" value="'.$orden.'" size="3">';
     echo $html;
 }
 
 function lnk_slide_texto_meta_box() {
     global $post;
+
+    /* MOSTRAR TEXTO*/
     $texto_mostrar = get_post_meta( $post->ID, 'lnk_slide_texto_mostrar', true );
+    $mostrar = $texto_mostrar === '1';
+    $html = '<strong>Mostrar texto?:</strong> <input type="checkbox" id="lnk_slide_texto_mostrar" name="lnk_slide_texto_mostrar"';
+    if($mostrar) {
+        $html.= 'checked';
+    }
+    $html.= ' ><br /><br />';
+
+    /* POSICION */
+    $posiciones = [
+        'der' => 'Derecha',
+        'izq' => 'Izquierda',
+        'cen' => 'Centro'
+    ];
     $texto_posicion = get_post_meta( $post->ID, 'lnk_slide_texto_posicion', true );
+    $html.= '<strong>Posicion:</strong> <select id="lnk_slide_texto_posicion" name="lnk_slide_texto_posicion">';
+    foreach($posiciones as $pos_key => $pos_value) {
+        $html.= '<option value="'.$pos_key.'" ';
+        if($texto_posicion === $pos_key) {
+            $html.= 'selected ';
+        }
+        $html.= '>'.$pos_value.'</option>';
+    }
+    $html.= '</select><br /><br />';
 
+    /* MOSTRAR BOTON */
+    $texto_boton = get_post_meta( $post->ID, 'lnk_slide_texto_boton', true );
+    $mostrar = $texto_boton === '1';
+    $html.= '<strong>Mostrar boton?:</strong> <input type="checkbox" id="lnk_slide_texto_boton" name="lnk_slide_texto_boton"';
+    if($mostrar) {
+        $html.= 'checked';
+    }
+    $html.= ' ><br /><br />';   
 
-    $html .= '<input type="number" id="lnk_slide_orden" name="lnk_slide_orden" value="'.$orden.'" size="3">';
+    /* TEXTO BOTON */
+    $texto_boton_texto = get_post_meta( $post->ID, 'lnk_slide_texto_boton_texto', true );
+    $html .= '<strong>Texto del boton:</strong> <input type="text" id="lnk_slide_texto_boton_texto" name="lnk_slide_texto_boton_texto" value="'.$texto_boton_texto.'" size="5">';
+ 
     echo $html;
 }
 
@@ -123,6 +158,26 @@ function lnk_slide_save_post_meta($id) {
                 return $id;
 
         update_post_meta($id, 'lnk_slide_orden', $_POST['lnk_slide_orden']);
+
+        if(isset($_POST["lnk_slide_texto_mostrar"]) && $_POST["lnk_slide_texto_mostrar"] == 'on') {
+            update_post_meta($id, 'lnk_slide_texto_mostrar', '1');
+        } else {
+            update_post_meta($id, 'lnk_slide_texto_mostrar', '0');
+        }
+
+        update_post_meta($id, 'lnk_slide_texto_posicion', $_POST['lnk_slide_texto_posicion']);
+
+        if(isset($_POST["lnk_slide_texto_boton"]) && $_POST["lnk_slide_texto_boton"] == 'on') {
+            update_post_meta($id, 'lnk_slide_texto_boton', '1');
+        } else {
+            update_post_meta($id, 'lnk_slide_texto_boton', '0');
+        }
+
+        update_post_meta($id, 'lnk_slide_texto_boton_texto', $_POST['lnk_slide_texto_boton_texto']);
+
+
+        //var_dump($_POST)
+        //die;
     }
 }
 add_action('save_post','lnk_slide_save_post_meta');
